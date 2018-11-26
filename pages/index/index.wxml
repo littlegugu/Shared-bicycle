@@ -1,0 +1,15 @@
+<map 
+id = 'myMap'
+latitude='{{latitude}}'
+longitude='{{longitude}}'
+latMove = '{{latMove}}'
+logMove = '{{logMove}}'
+controls='{{controls}}'
+show-location='true'
+scale='15'
+bindcontroltap='controltap'
+style='height:100%;width:100%'
+markers='{{markers}}'
+bindregionchange='regionchange'
+>
+</map>

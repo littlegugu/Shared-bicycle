@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu360.web.mapper.BikeMapper">
+
+	<insert id="save" parameterType="cn.edu360.web.entity.Bike">
+		INSERT INTO t_bikes (longitude, latitude, status) VALUES (#{longitude}, #{latitude}, #{status})
+	</insert>
+
+	<select id="findAll" resultType="cn.edu360.web.entity.Bike">
+		SELECT * FROM t_bikes
+	</select>
+
+</mapper>
