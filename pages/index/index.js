@@ -1,3 +1,5 @@
+var myUtils = require("../../utils/myUtils.js")
+
 Page({
     data: {
       latitude:0,
@@ -99,26 +101,57 @@ Page({
           break;
         }
         case 6:{//添加单车
-          var bikes = that.data.markers;
+          // var bikes = that.data.markers;
           this.mapCtx.getCenterLocation({
             success: function(res){
               var log = res.longitude;
               var lat = res.latitude;
               // console.log(log);
               // console.log(lat);
-              bikes.push({
-                iconPath: '../../images/images/bike.png',
-                width: 30,
-                height: 30,
-                longitude: log,
-                latitude: lat,
-              });
-              that.setData({
-                markers: bikes
+              // bikes.push({
+              //   iconPath: '../../images/images/bike.png',
+              //   width: 30,
+              //   height: 30,
+              //   longitude: log,
+              //   latitude: lat,
+              // });
+              // that.setData({
+              //   markers: bikes
+              // })
+              //将数据发到后台
+              wx.request({
+                url: 'http://localhost:8080//bike/add',
+                data:{
+                  longitude:log,
+                  latitude:lat,
+                  status  :0,
+                }, 
+                method:"post",
+                success:function(res){
+                  console.log(res)
+                  findBikes(log,lat,that)
+                }
               })
             }
           })
           break;
+        }
+        case 1:{
+          //点击扫码
+          //根据用户状态跳转
+          var status = myUtils.get("status");
+          //如果是0，跳转到手机注册
+          if(status==0){
+            wx.navigateTo({
+              url: '../register/register',
+            })
+          }else if(status==1){
+            wx.navigateTo({
+              url: '../deposite/deposite',
+            })
+          }
+          break;
+
         }
       }
     },
@@ -147,3 +180,17 @@ Page({
     
 
 });
+function findBikes(longitude,latitude,that){
+  wx.request({
+    url: 'http://localhost:8080//bike/findNear',
+    method:"Get",
+    data:{
+      longitude:longitude,
+      latitude:latitude,
+
+    },
+    success:function(res){
+      console.log(res);
+    }
+  })
+}
